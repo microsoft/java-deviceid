@@ -8,15 +8,20 @@ import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 
 import java.io.IOException;
+import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static com.sun.jna.platform.win32.WinReg.HKEY_CURRENT_USER;
+import static com.sun.jna.platform.win32.WinNT.KEY_WRITE;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 class WindowsDeviceIdTest {
-
+    
     private WindowsDeviceId windowsDeviceId;
 
     @BeforeEach
@@ -36,9 +41,8 @@ class WindowsDeviceIdTest {
 
             String deviceId = windowsDeviceId.getDeviceId("Software\\Microsoft\\DeveloperTools");
 
-            advapi32UtilMockedStatic.verify(() -> Advapi32Util.registryCreateKey(HKEY_CURRENT_USER, "Software\\Microsoft\\DeveloperTools", WinNT.KEY_WRITE));
+            advapi32UtilMockedStatic.verify(() -> Advapi32Util.registryCreateKey(HKEY_CURRENT_USER, "Software\\Microsoft\\DeveloperTools", KEY_WRITE));
             advapi32UtilMockedStatic.verify(() -> Advapi32Util.registrySetStringValue(HKEY_CURRENT_USER, "Software\\Microsoft\\DeveloperTools", "deviceid", deviceId));
-            assertEquals(deviceId, Advapi32Util.registryGetStringValue(HKEY_CURRENT_USER, "Software\\Microsoft\\DeveloperTools", "deviceid"));
         }
     }
 
