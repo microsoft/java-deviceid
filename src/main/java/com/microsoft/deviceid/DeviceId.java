@@ -31,7 +31,6 @@ public abstract class DeviceId {
         };
     
         try {
-            // @SuppressWarnings("deprecation")
             Object result = Class.forName(impl, false, DeviceId.class.getClassLoader()).getDeclaredConstructor().newInstance();
             return (DeviceId) result;
         } catch (Exception e) {
@@ -57,5 +56,7 @@ public abstract class DeviceId {
      * @throws IOException if an I/O error occurs
      */
     protected abstract String getDeviceId() throws IOException;
+
+    protected DeviceId() {}
 
 }

@@ -12,7 +12,7 @@
     <name>DevDeviceID</name>
     <description>Implementation of the DevDeviceID specification</description>
 
-    <url>https://github.com/microsoft/java-deviceid</url>
+    <url>https://github.com/microsoft-deviceid</url>
     <organization>
         <name>Microsoft Corporation</name>
         <url>http://microsoft.com</url>
@@ -27,9 +27,9 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:git@github.com:Microsoft/java-deviceid.git</connection>
-        <developerConnection>scm:git:git@github.com:Microsoft/java-deviceid.git</developerConnection>
-        <url>https://github.com/Microsoft/java-deviceid</url>
+        <connection>scm:git:git@github.com:Microsoft-deviceid.git</connection>
+        <developerConnection>scm:git:git@github.com:Microsoft-deviceid.git</developerConnection>
+        <url>https://github.com/Microsoft-deviceid</url>
         <tag>HEAD</tag>
     </scm>
 
@@ -50,8 +50,23 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <jna.version>5.16.0</jna.version>
+        <junit.jupiter.version>5.8.1</junit.jupiter.version>
         <build-helper-maven-plugin.version>3.6.0</build-helper-maven-plugin.version>
     </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
     <profiles>
         <profile>
@@ -83,7 +98,19 @@
                                 </goals>
                                 <configuration>
                                     <sources>
-                                        <source>src/windows</source>
+                                        <source>windows/src/main/java</source>
+                                    </sources>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>add-test-source</id>
+                                <phase>generate-test-sources</phase>
+                                <goals>
+                                    <goal>add-test-source</goal>
+                                </goals>
+                                <configuration>
+                                    <sources>
+                                        <source>windows/src/test/java</source>
                                     </sources>
                                 </configuration>
                             </execution>
@@ -114,8 +141,21 @@
                                 </goals>
                                 <configuration>
                                     <sources>
-                                        <source>src/macos</source>
-                                        <source>src/linux</source>
+                                        <source>macosx/src/main/java</source>
+                                        <source>linux/src/main/java</source>
+                                    </sources>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>add-test-source</id>
+                                <phase>generate-test-sources</phase>
+                                <goals>
+                                    <goal>add-test-source</goal>
+                                </goals>
+                                <configuration>
+                                    <sources>
+                                        <source>macosx/src/test/java</source>
+                                        <source>linux/src/test/java</source>
                                     </sources>
                                 </configuration>
                             </execution>

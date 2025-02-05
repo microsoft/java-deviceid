@@ -11,18 +11,23 @@ import java.nio.file.Paths;
 /**
  * Fallback implementation of DeviceId.
  */
-class DefaultDeviceId extends DeviceId {
+public class DefaultDeviceId extends DeviceId {
 
     private static final String FOLDER = "Microsoft/DeveloperTools";
 
+    public DefaultDeviceId() {
+        super();
+    }
+
     @Override
     protected String getDeviceId() throws IOException {
-        return getDeviceId(System.getProperty("user.home"));
+        Path rooPath = Paths.get(System.getProperty("user.home"), ".cache");
+        return getDeviceId(rooPath);
     }
 
     // decouple getting the rootPath from this logic to allow for testing
-    String getDeviceId(String rootPath) throws IOException {
-        Path path = Paths.get(rootPath, ".cache", FOLDER);
+    String getDeviceId(Path rootPath) throws IOException {
+        Path path = rootPath.resolve(FOLDER);
         if (!Files.exists(path)) {
             Files.createDirectories(path);
         }

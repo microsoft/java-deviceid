@@ -8,20 +8,25 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 /**
- * Dev Device ID for Mac OS X.
+ * Linux implementation of DeviceId.
  */
-class MacDeviceId extends DeviceId {
+class LinuxDeviceId extends DeviceId {
     
-    private static final String FOLDER = "Library/Application Support/Microsoft/DeveloperTools";
+    private static final String FOLDER = "Microsoft/DeveloperTools";
 
     @Override
-    protected String getDeviceId() {
-        return getDeviceId(System.getProperty("user.home"));
+    protected String getDeviceId() throws IOException {
+        String cacheHome = System.getenv("XDG_CACHE_HOME");
+        if (cacheHome == null || cacheHome.isEmpty()) {
+            cacheHome = System.getProperty("user.home");
+        }
+        Path rootPath = Paths.get(cacheHome, ".cache");
+        return getDeviceId(rootPath);
     }
-
+    
     // decouple getting the rootPath from this logic to allow for testing
-    String getDeviceId(String rootPath) throws IOException {
-        Path path = Paths.get(rootPath, FOLDER);
+    String getDeviceId(Path rootPath) throws IOException {
+        Path path = rootPath.resolve(FOLDER);
         if (!Files.exists(path)) {
             Files.createDirectories(path);
         }
@@ -34,7 +39,6 @@ class MacDeviceId extends DeviceId {
             uuid = java.util.UUID.randomUUID().toString();
             Files.write(deviceid, uuid.getBytes(java.nio.charset.StandardCharsets.UTF_8));
         }
-        return uuid;    
+        return uuid;
     }
-
 }
