@@ -1,0 +1,6 @@
+com/microsoft/deviceid/OperatingSystem.class
+com/microsoft/deviceid/DeviceId$1.class
+com/microsoft/deviceid/DeviceId.class
+com/microsoft/deviceid/LinuxDeviceId.class
+com/microsoft/deviceid/DefaultDeviceId.class
+com/microsoft/deviceid/MacDeviceId.class

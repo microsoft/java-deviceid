@@ -1,0 +1,5 @@
+/workspaces/java-deviceid/linux/src/main/java/com/microsoft/deviceid/LinuxDeviceId.java
+/workspaces/java-deviceid/macosx/src/main/java/com/microsoft/deviceid/MacDeviceId.java
+/workspaces/java-deviceid/src/main/java/com/microsoft/deviceid/DefaultDeviceId.java
+/workspaces/java-deviceid/src/main/java/com/microsoft/deviceid/DeviceId.java
+/workspaces/java-deviceid/src/main/java/com/microsoft/deviceid/OperatingSystem.java
