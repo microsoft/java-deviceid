@@ -41,21 +41,26 @@ public abstract class DeviceId {
     }
 
     /**
-     * Gets the device ID.
-     * @return the device ID
-     * @throws IOException if an I/O error occurs
+     * Gets the device ID. The value is a UUID. In the case where the cached
+     * id cannot be retrieved, or the newly generated id cannot be cached,
+     * a value of {@code null} should be returned.
+     * @return the device ID, or {@code null} if the ID cannot be retrieved
      */
-    public static String deviceId() throws IOException {
+    public static String deviceId() {
         return INSTANCE.getDeviceId();
     }
 
     /**
-     * Operating system specific method to get the device ID. The implementation
-     * will create the ID if it does not exist.
-     * @return the device ID
-     * @throws IOException if an I/O error occurs
+     * Operating system specific method to get the device ID. The value is a UUID
+     * that follows the 8-4-4-4-12 format. The value shall be all lowercase and
+     * only contain hyphens. No braces or brackets.
+     * <p>
+     * The implementation will create the ID if it does not exist. In the case
+     * where the cached id cannot be retrieved, or the newly generated id cannot
+     * be cached, a value of {@code null} should be returned.
+     * @return the device ID, or {@code null} if the ID cannot be retrieved
      */
-    protected abstract String getDeviceId() throws IOException;
+    protected abstract String getDeviceId();
 
     protected DeviceId() {}
 

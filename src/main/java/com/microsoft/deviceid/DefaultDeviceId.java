@@ -20,26 +20,8 @@ public class DefaultDeviceId extends DeviceId {
     }
 
     @Override
-    protected String getDeviceId() throws IOException {
-        Path rooPath = Paths.get(System.getProperty("user.home"), ".cache");
-        return getDeviceId(rooPath);
+    protected String getDeviceId() {
+        return null;
     }
 
-    // decouple getting the rootPath from this logic to allow for testing
-    String getDeviceId(Path rootPath) throws IOException {
-        Path path = rootPath.resolve(FOLDER);
-        if (!Files.exists(path)) {
-            Files.createDirectories(path);
-        }
-        Path deviceid = path.resolve("deviceid");
-        if (!Files.exists(deviceid)) {
-            Files.createFile(deviceid);
-        }
-        String uuid = new String(Files.readAllBytes(deviceid), java.nio.charset.StandardCharsets.UTF_8);
-        if (uuid == null || uuid.isEmpty()) {
-            uuid = java.util.UUID.randomUUID().toString();
-            Files.write(deviceid, uuid.getBytes(java.nio.charset.StandardCharsets.UTF_8));
-        }
-        return uuid;
-    }
 }
