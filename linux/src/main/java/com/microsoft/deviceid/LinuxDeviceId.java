@@ -9,19 +9,29 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 /**
  * Linux implementation of DeviceId.
+ * <ol>
+ * <li>The folder path will be &lt;RootPath&gt;/Microsoft/DeveloperTools where &lt;RootPath&gt; 
+ * is $XDG_CACHE_HOME if it is set and not empty, else use $HOME/.cache.</li>
+ * <li>The file will be called 'deviceid'.</li>
+ * <li>The value should be stored in plain text, UTF-8.</li> 
+ * </ol>
  */
 class LinuxDeviceId extends DeviceId {
     
     private static final String FOLDER = "Microsoft/DeveloperTools";
 
     @Override
-    protected String getDeviceId() throws IOException {
-        String cacheHome = System.getenv("XDG_CACHE_HOME");
-        if (cacheHome == null || cacheHome.isEmpty()) {
-            cacheHome = System.getProperty("user.home");
+    protected String getDeviceId() {
+        try {
+            String cacheHome = System.getenv("XDG_CACHE_HOME");
+            if (cacheHome == null || cacheHome.isEmpty()) {
+                cacheHome = System.getProperty("user.home");
+            }
+            Path rootPath = Paths.get(cacheHome, ".cache");
+            return getDeviceId(rootPath);
+        } catch (IOException e) {
+            return null;
         }
-        Path rootPath = Paths.get(cacheHome, ".cache");
-        return getDeviceId(rootPath);
     }
     
     // decouple getting the rootPath from this logic to allow for testing
