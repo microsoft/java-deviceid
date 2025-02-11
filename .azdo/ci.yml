@@ -36,10 +36,10 @@ extends:
             mkdir ~/.m2 \|| true
             cp $(Build.SourcesDirectory)/azdo/feed-settings.xml ~/.m2/settings.xml
           displayName: 'Copy feed-settings to .m2'
-        - template: checkout.yml@self
-        - template: build.yml@self
-        - template: test.yml@self
-        - template: publish.yml@self
+        - template: /.azdo/checkout.yml@self
+        - template: /.azdo/build.yml@self
+        - template: /.azdo/test.yml@self
+        - template: /.azdo/publish.yml@self
 
       - job: build-windows
         displayName: Build on Windows
@@ -51,7 +51,7 @@ extends:
             mkdir $env:USERPROFILE\.m2 -ErrorAction SilentlyContinue
             cp $(Build.SourcesDirectory)\azdo\feed-settings.xml $env:USERPROFILE\.m2\settings.xml
           displayName: 'Copy feed-settings to .m2'
-        - template: checkout.yml@self
-        - template: build.yml@self
-        - template: test.yml@self
-        - template: publish.yml@self
+        - template: /.azdo/checkout.yml@self
+        - template: /.azdo/build.yml@self
+        - template: /.azdo/test.yml@self
+        - template: /.azdo/publish.yml@self
