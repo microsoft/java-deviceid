@@ -1,0 +1,57 @@
+# Maven
+trigger:
+- main
+
+pr:
+  branches:
+    include:
+    - '*'
+
+resources:
+  repositories:
+    - repository: 1ESPipelineTemplates
+      type: git
+      name: 1ESPipelineTemplates/1ESPipelineTemplates
+      ref: refs/tags/release
+
+extends:
+  template: v1/1ES.Official.PipelineTemplate.yml@1ESPipelineTemplates
+  parameters:
+    sdl:
+      sourceAnalysisPool:
+        name: JEG-windows2022-x64-release
+        os: windows
+    stages:
+    - stage: build
+      displayName: Build
+      jobs:
+
+      - job: build-linux
+        displayName: Build on Linux
+        pool:
+          name: JEG-ubuntu22.04-x64-release
+          os: linux
+        steps:
+        - bash: |
+            mkdir ~/.m2 \|| true
+            cp $(Build.SourcesDirectory)/azdo/feed-settings.xml ~/.m2/settings.xml
+          displayName: 'Copy feed-settings to .m2'
+        - template: checkout.yml
+        - template: build.yml
+        - template: test.yml
+        - template: publish.yml
+
+      - job: build-windows
+        displayName: Build on Windows
+        pool:
+          name: JEG-windows2022-x64-release
+          os: windows
+        steps:
+        - powershell: |
+            mkdir $env:USERPROFILE\.m2 -ErrorAction SilentlyContinue
+            cp $(Build.SourcesDirectory)\azdo\feed-settings.xml $env:USERPROFILE\.m2\settings.xml
+          displayName: 'Copy feed-settings to .m2'
+        - template: checkout.yml
+        - template: build.yml
+        - template: test.yml
+        - template: publish.yml

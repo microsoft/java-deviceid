@@ -1,0 +1,14 @@
+steps:
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: '$(Pipeline.Workspace)/target'
+      Contents: '*.jar'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)/dist'
+    displayName: Copy censum zip file to staging
+
+  - task: 1ES.PublishPipelineArtifact@1
+    inputs:
+      targetPath: '$(Build.ArtifactStagingDirectory)/dist'
+      artifact: 'dist'
+      publishLocation: "pipeline"
+    displayName: 'Publish pipeline artifacts'
