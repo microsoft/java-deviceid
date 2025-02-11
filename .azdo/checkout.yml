@@ -1,11 +1,10 @@
 steps:
-  - task: UseJava@1
+  - task: JavaToolInstaller@1
     displayName: 'Use JDK 11'
     inputs:
       versionSpec: '11'
       jdkArchitectureOption: 'x64'
       jdkSourceOption: 'PreInstalled'
-      jdkUserInputPath: '/usr/lib/jvm/adoptopenjdk-11-hotspot-amd64'
 
   - checkout: self
     displayName: 'Checkout source code'
