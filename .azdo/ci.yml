@@ -14,21 +14,13 @@ resources:
       name: 1ESPipelineTemplates/1ESPipelineTemplates
       ref: refs/tags/release
 
-    - repository: self
-      type: github
-      endpoint: Github-Java-Engineering
-      name: microsoft/java-deviceid
-
 extends:
-  template: v1/1ES.Unofficial.PipelineTemplate.yml@1ESPipelineTemplates
+  template: v1/1ES.Official.PipelineTemplate.yml@1ESPipelineTemplates
   parameters:
     sdl:
       sourceAnalysisPool:
         name: JEG-windows2022-x64-release
         os: windows
-      sourceRepositoriesToScan:
-        exclude:
-          - repository: self
     stages:
     - stage: build
       displayName: Build
