@@ -1,0 +1,8 @@
+steps:
+  - task: Maven@3
+    displayName: 'Build with Maven'
+    inputs:
+      mavenPOMFile: 'pom.xml'
+      goals: 'package'
+      options: '-DskipTests=true' 
+      jdkVersionOption: '1.11'

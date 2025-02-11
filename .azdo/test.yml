@@ -1,0 +1,10 @@
+steps:
+  - task: Maven@3
+    displayName: 'Test with Maven'
+    inputs:
+      mavenPOMFile: 'pom.xml'
+      goals: 'test'
+      jdkVersionOption: '1.11'
+      publishJUnitResults: true
+      testResultsFiles: '**/surefire-reports/TEST-*.xml'
+
