@@ -26,7 +26,7 @@ extends:
       displayName: Build
       jobs:
 
-      - job: build-linux
+      - job: build_linux
         displayName: Build on Linux
         pool:
           name: JEG-ubuntu22.04-x64-release
@@ -41,7 +41,7 @@ extends:
         - template: /.azdo/test.yml@self
         - template: /.azdo/publish.yml@self
 
-      - job: build-windows
+      - job: build_windows
         displayName: Build on Windows
         pool:
           name: JEG-windows2022-x64-release
