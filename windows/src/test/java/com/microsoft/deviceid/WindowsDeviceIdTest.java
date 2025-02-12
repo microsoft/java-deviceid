@@ -7,10 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 
-import java.io.IOException;
-import java.util.UUID;
-import java.util.concurrent.atomic.AtomicReference;
-
 import static com.sun.jna.platform.win32.WinReg.HKEY_CURRENT_USER;
 import static com.sun.jna.platform.win32.WinNT.KEY_WRITE;
 
@@ -18,7 +14,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
 
 class WindowsDeviceIdTest {
     
@@ -30,7 +25,7 @@ class WindowsDeviceIdTest {
     }
 
     @Test
-    void testGetDeviceIdCreatesRegistryKeyAndValue() throws IOException {
+    void testGetDeviceIdCreatesRegistryKeyAndValue() {
         try (MockedStatic<Advapi32Util> advapi32UtilMockedStatic = Mockito.mockStatic(Advapi32Util.class)) {
             advapi32UtilMockedStatic.when(() -> Advapi32Util.registryKeyExists(HKEY_CURRENT_USER, "Software\\Microsoft\\DeveloperTools"))
                     .thenReturn(false);
@@ -47,7 +42,7 @@ class WindowsDeviceIdTest {
     }
 
     @Test
-    void testGetDeviceIdReadsExistingUuid() throws IOException {
+    void testGetDeviceIdReadsExistingUuid() {
         try (MockedStatic<Advapi32Util> advapi32UtilMockedStatic = Mockito.mockStatic(Advapi32Util.class)) {
             String existingUuid = "existing-uuid";
             advapi32UtilMockedStatic.when(() -> Advapi32Util.registryKeyExists(HKEY_CURRENT_USER, "Software\\Microsoft\\DeveloperTools"))
@@ -64,12 +59,12 @@ class WindowsDeviceIdTest {
     }
 
     @Test
-    void testGetDeviceIdReturnsNullOnWin32Exception() {
+    void testGetDeviceIdThrowsWin32Exception() {
         try (MockedStatic<Advapi32Util> advapi32UtilMockedStatic = Mockito.mockStatic(Advapi32Util.class)) {
             advapi32UtilMockedStatic.when(() -> Advapi32Util.registryKeyExists(any(), anyString()))
                     .thenThrow(new Win32Exception(1));
 
-            assertNull(windowsDeviceId.getDeviceId("Software\\Microsoft\\DeveloperTools"));
+            assertThrows(Win32Exception.class, () -> windowsDeviceId.getDeviceId("Software\\Microsoft\\DeveloperTools"));
         }
     }
 }
