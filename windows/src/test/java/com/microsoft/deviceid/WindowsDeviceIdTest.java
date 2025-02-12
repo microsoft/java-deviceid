@@ -64,12 +64,12 @@ class WindowsDeviceIdTest {
     }
 
     @Test
-    void testGetDeviceIdThrowsIOExceptionOnWin32Exception() {
+    void testGetDeviceIdReturnsNullOnWin32Exception() {
         try (MockedStatic<Advapi32Util> advapi32UtilMockedStatic = Mockito.mockStatic(Advapi32Util.class)) {
             advapi32UtilMockedStatic.when(() -> Advapi32Util.registryKeyExists(any(), anyString()))
                     .thenThrow(new Win32Exception(1));
 
-            assertThrows(IOException.class, () -> windowsDeviceId.getDeviceId("Software\\Microsoft\\DeveloperTools"));
+            assertNull(windowsDeviceId.getDeviceId("Software\\Microsoft\\DeveloperTools"));
         }
     }
 }
