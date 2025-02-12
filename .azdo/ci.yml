@@ -25,33 +25,13 @@ extends:
     - stage: build
       displayName: Build
       jobs:
-
-      - job: build-linux
-        displayName: Build on Linux
-        pool:
-          name: JEG-ubuntu22.04-x64-release
-          os: linux
-        steps:
-        - bash: |
-            mkdir ~/.m2 \|| true
-            cp $(Build.SourcesDirectory)/azdo/feed-settings.xml ~/.m2/settings.xml
-          displayName: 'Copy feed-settings to .m2'
-        - template: checkout.yml
-        - template: build.yml
-        - template: test.yml
-        - template: publish.yml
-
-      - job: build-windows
+      - job: build_windows
         displayName: Build on Windows
         pool:
           name: JEG-windows2022-x64-release
           os: windows
         steps:
-        - powershell: |
-            mkdir $env:USERPROFILE\.m2 -ErrorAction SilentlyContinue
-            cp $(Build.SourcesDirectory)\azdo\feed-settings.xml $env:USERPROFILE\.m2\settings.xml
-          displayName: 'Copy feed-settings to .m2'
-        - template: checkout.yml
-        - template: build.yml
-        - template: test.yml
-        - template: publish.yml
+        - template: /.azdo/checkout.yml@self
+        - template: /.azdo/build.yml@self
+        - template: /.azdo/test.yml@self
+        - template: /.azdo/publish.yml@self

@@ -1,8 +1,10 @@
 steps:
-  - task: Maven@3
+  - task: Maven@4
     displayName: 'Build with Maven'
     inputs:
       mavenPOMFile: 'pom.xml'
       goals: 'package'
-      options: '-DskipTests=true' 
+      options: '--batch-mode --settings .azdo/feed-settings.xml -Dmaven.test.skip=true' 
       jdkVersionOption: '1.11'
+    env:
+      TOKEN: $(TOKEN)
