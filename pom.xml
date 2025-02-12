@@ -107,6 +107,8 @@
                                 <configuration>
                                     <sources>
                                         <source>windows/src/main/java</source>
+                                        <source>macosx/src/main/java</source>
+                                        <source>linux/src/main/java</source>
                                     </sources>
                                 </configuration>
                             </execution>
@@ -119,6 +121,8 @@
                                 <configuration>
                                     <sources>
                                         <source>windows/src/test/java</source>
+                                        <source>macosx/src/test/java</source>
+                                        <source>linux/src/test/java</source>
                                     </sources>
                                 </configuration>
                             </execution>

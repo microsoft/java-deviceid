@@ -1,14 +1,10 @@
 steps:
-  - task: CopyFiles@2
+  - task: Maven@3
+    displayName: 'Deploy to java-engineering-feed'
     inputs:
-      SourceFolder: '$(Pipeline.Workspace)/target'
-      Contents: '*.jar'
-      TargetFolder: '$(Build.ArtifactStagingDirectory)/dist'
-    displayName: Copy censum zip file to staging
-
-  - task: 1ES.PublishPipelineArtifact@1
-    inputs:
-      targetPath: '$(Build.ArtifactStagingDirectory)/dist'
-      artifact: 'dist'
-      publishLocation: "pipeline"
-    displayName: 'Publish pipeline artifacts'
+      mavenPOMFile: 'pom.xml'
+      goals: 'deploy'
+      options: '--batch-mode --settings .azdo/feed-settings.xml -Dmaven.test.skip=true -DaltDeploymentRepository=java-engineering-feed::https://devdiv.pkgs.visualstudio.com/_packaging/java-engineering-feed/maven/v1' 
+      jdkVersionOption: '1.11'
+    env:
+      TOKEN: $(TOKEN)
