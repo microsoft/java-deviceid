@@ -25,18 +25,6 @@ extends:
     - stage: build
       displayName: Build
       jobs:
-
-      # - job: build_linux
-      #   displayName: Build on Linux
-      #   pool:
-      #     name: JEG-ubuntu22.04-x64-release
-      #     os: linux
-      #   steps:
-      #   - template: /.azdo/checkout.yml@self
-      #   - template: /.azdo/build.yml@self
-      #   - template: /.azdo/test.yml@self
-      #   - template: /.azdo/publish.yml@self
-
       - job: build_windows
         displayName: Build on Windows
         pool:
